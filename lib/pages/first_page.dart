@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
 
 class FirstPage extends StatefulWidget {
   final ScrollController scrollController;
@@ -11,42 +12,35 @@ class FirstPage extends StatefulWidget {
   State<FirstPage> createState() => _FirstPageState();
 }
 
-class _FirstPageState extends State<FirstPage> {
-  double alignmentY = -1.0;
-  // late AnimationController ac;
-  // late Animation<double> ani;
-  // onScroll() {
-  //   if (widget.scrollController.hasClients) {
-  //     print(widget.scrollController.hasListeners);
-  //   }
-  // }
-
+class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
+  double alignmentY = 0;
+  double opacityV = 0.0;
+  double degree = -45.0;
+  // RiveAnimationController a = SimpleAnimation('');
+  // a
+  late final AnimationController _acontroller = AnimationController(
+    lowerBound: 0.0,
+    upperBound: 1,
+    duration: const Duration(seconds: 2),
+    vsync: this,
+  );
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _acontroller,
+    curve: Curves.bounceInOut,
+  );
   @override
   void initState() {
-    // ac = AnimationController(
-    //     vsync: this,
-    //     duration: const Duration(milliseconds: 450),
-    //     lowerBound: 0.0,
-    //     upperBound: 1,
-    //     animationBehavior: AnimationBehavior.preserve);
-    // ani = Tween<double>(begin: -1, end: 1).animate(ac)
-    //   ..addListener(() {
-    //     print(ani.value);
-    //     setState(() {});
-    //   });
-
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 1), () {
+        setState(() {
+          opacityV = 1.0;
+          degree = 0.0;
+        });
+      });
       widget.scrollController.addListener(() {
-        // ac.addListener(() {
-        //   setState(() {});
-        // });
-        if (widget.scrollController.offset < 400) {
+        if (widget.scrollController.offset < 800) {
           setState(() {
-            // ac.animateTo(
-            //   (widget.scrollController.offset / 400),
-            // );
-            // ani.value;
-            alignmentY = (widget.scrollController.offset / 800) - 1;
+            alignmentY = (widget.scrollController.offset / 800);
           });
         }
         // print(widget.scrollController.offset);
@@ -55,68 +49,168 @@ class _FirstPageState extends State<FirstPage> {
     super.initState();
   }
 
+  void wtf(Artboard a) {}
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // curve: Curves.easeInOut,
-      // duration: const Duration(milliseconds: 250),
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        image: DecorationImage(
-          image: const AssetImage('res/bg1.png'),
-          fit: BoxFit.cover,
-          alignment: Alignment(0, alignmentY),
-        ),
-      ),
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      height: 440,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Flexible(
-            flex: 8,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  minRadius:
-                      MediaQuery.of(context).orientation.index == 0 ? 44 : 72,
-                  backgroundImage: const AssetImage('res/pp.jpg'),
-                ),
-                const Padding(padding: EdgeInsets.all(8.0)),
-                Flexible(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Muhammad Rizal Afifuddin',
-                        textScaleFactor:
-                            MediaQuery.of(context).orientation.index == 0
-                                ? 2.0
-                                : 2.5,
+    double avatarPadding =
+        MediaQuery.of(context).orientation.index == 0 ? 4.0 : 8.0;
+    return Stack(
+      children: [
+        SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: (MediaQuery.of(context).orientation.index == 0 ? 400 : 640),
+            child: Opacity(
+              opacity: 1,
+              child: RiveAnimation.asset(
+                'res/rive/firstpage.riv',
+                onInit: (artboard) {},
+                fit: BoxFit.cover,
+                alignment: Alignment(0, alignmentY),
+              ),
+            )),
+        Positioned(
+          top: 0,
+          bottom: 0,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            height: 440,
+            child: AnimatedOpacity(
+              opacity: opacityV,
+              curve: Curves.easeInOut,
+              duration: const Duration(milliseconds: 450),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(flex: 1, child: Container()),
+                  Flexible(
+                    flex: 8,
+                    child: AnimatedContainer(
+                      curve: Curves.bounceOut,
+                      duration: const Duration(milliseconds: 1050),
+                      transform: Matrix4.identity()
+                        ..rotateZ(degree)
+                        ..translate(0.0, degree),
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            right: 92,
+                            top: avatarPadding,
+                            left: avatarPadding,
+                            bottom: avatarPadding),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.deepPurple),
+                            color: Colors.purple.withOpacity(0.65),
+                            borderRadius: BorderRadius.circular(avatarPadding +
+                                (MediaQuery.of(context).orientation.index == 0
+                                    ? 44
+                                    : 126))),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height:
+                                  (MediaQuery.of(context).orientation.index == 0
+                                              ? 48
+                                              : 126) *
+                                          2 +
+                                      4,
+                              width:
+                                  (MediaQuery.of(context).orientation.index == 0
+                                              ? 48
+                                              : 126) *
+                                          2 +
+                                      4,
+                              padding: const EdgeInsets.all(2.0),
+                              // alignment: Alignment(0, 0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    MediaQuery.of(context).orientation.index ==
+                                            0
+                                        ? 48
+                                        : 126),
+                                color: Colors.purple,
+                              ),
+                              child: MouseRegion(
+                                onEnter: (event) {
+                                  //
+                                  _acontroller.forward();
+                                },
+                                onExit: (event) {
+                                  //
+                                  _acontroller.reverse();
+                                },
+                                child: RotationTransition(
+                                  turns: _animation,
+                                  child: CircleAvatar(
+                                    minRadius: MediaQuery.of(context)
+                                                .orientation
+                                                .index ==
+                                            0
+                                        ? 48
+                                        : 126,
+                                    backgroundImage:
+                                        const AssetImage('res/pp.jpg'),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Padding(padding: EdgeInsets.all(4.0)),
+                            Flexible(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Transform.translate(
+                                    offset: Offset(-20, 0),
+                                    child: Text(
+                                      'Muhammad Rizal Afifuddin',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        shadows: [
+                                          Shadow(
+                                              color: Colors.black,
+                                              blurRadius: 4.0)
+                                        ],
+                                        // backgroundColor: Colors.white,
+                                      ),
+                                      textScaleFactor: MediaQuery.of(context)
+                                                  .orientation
+                                                  .index ==
+                                              0
+                                          ? 2.0
+                                          : 2.5,
+                                    ),
+                                  ),
+                                  Text(
+                                    '[Deskripsi tentang diri]',
+                                    textScaleFactor: MediaQuery.of(context)
+                                                .orientation
+                                                .index ==
+                                            0
+                                        ? 1.0
+                                        : 1.5,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      Text(
-                        'Deskripsi tentang diri',
-                        textScaleFactor:
-                            MediaQuery.of(context).orientation.index == 0
-                                ? 1.0
-                                : 1.5,
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                  Flexible(
+                    flex: MediaQuery.of(context).orientation.index == 0 ? 1 : 4,
+                    child: Container(),
+                  )
+                ],
+              ),
             ),
           ),
-          Flexible(
-            flex: 4,
-            child: Container(),
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
