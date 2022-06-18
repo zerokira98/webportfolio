@@ -11,8 +11,9 @@ class Footer extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: const Center(
         child: Text(
-          'Copyright 2022, by Muhammad Rizal Afifuddin.',
+          'Copyright 2022, by Muhammad Rizal Afifuddin.\nBuilt with Flutter.',
           style: TextStyle(color: Colors.white),
+          textAlign: TextAlign.center,
         ),
       ),
     );

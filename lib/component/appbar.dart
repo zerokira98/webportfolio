@@ -66,49 +66,54 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 450),
-      curve: Curves.easeInOut,
-      padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.1),
-      width: MediaQuery.of(context).size.width,
-      height: 52,
+    return Container(
       color: col,
-      // alignment: ,
-      // decoration: const BoxDecoration(
-      // gradient: LinearGradient(
-      //     colors: [Colors.black, Colors.black],
-      //     begin: Alignment.topCenter,
-      //     end: Alignment.bottomCenter),
-      // ),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.person_outline_sharp,
-            color: Colors.white,
-          ),
-          Flexible(flex: 2, child: Container()),
-          Flexible(
-            flex: MediaQuery.of(context).orientation.index == 0 ? 2 : 1,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                for (var i = 0; i < appBarText.length; i++)
-                  InkWell(
-                    onTap: appBarText[i]['method'],
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        appBarText[i]['nama'],
-                        style: ts,
-                        textScaleFactor: scaleTxt,
+      height: 52,
+      width: MediaQuery.of(context).size.width,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 450),
+        curve: Curves.easeInOut,
+        padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.1),
+        width: MediaQuery.of(context).size.width,
+        // height: 52,
+        color: col,
+        // alignment: ,
+        // decoration: const BoxDecoration(
+        // gradient: LinearGradient(
+        //     colors: [Colors.black, Colors.black],
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter),
+        // ),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.person_outline_sharp,
+              color: Colors.white,
+            ),
+            Flexible(flex: 2, child: Container()),
+            Flexible(
+              flex: MediaQuery.of(context).orientation.index == 0 ? 2 : 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  for (var i = 0; i < appBarText.length; i++)
+                    InkWell(
+                      onTap: appBarText[i]['method'],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          appBarText[i]['nama'],
+                          style: ts,
+                          textScaleFactor: scaleTxt,
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

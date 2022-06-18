@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
@@ -83,9 +84,12 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(flex: 1, child: Container()),
                   Flexible(
-                    flex: 8,
+                      flex:
+                          MediaQuery.of(context).orientation.index == 0 ? 0 : 1,
+                      child: Container()),
+                  Flexible(
+                    flex: 10,
                     child: AnimatedContainer(
                       curve: Curves.bounceOut,
                       duration: const Duration(milliseconds: 1050),
@@ -164,10 +168,19 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Transform.translate(
-                                    offset: Offset(-20, 0),
-                                    child: Text(
+                                    offset: MediaQuery.of(context)
+                                                .orientation
+                                                .index ==
+                                            0
+                                        ? Offset(0, 0)
+                                        : Offset(-20, 0),
+                                    child: const AutoSizeText(
                                       'Muhammad Rizal Afifuddin',
-                                      style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      minFontSize: 18,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                        fontSize: 32,
                                         color: Colors.white,
                                         shadows: [
                                           Shadow(
@@ -176,12 +189,12 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                         ],
                                         // backgroundColor: Colors.white,
                                       ),
-                                      textScaleFactor: MediaQuery.of(context)
-                                                  .orientation
-                                                  .index ==
-                                              0
-                                          ? 2.0
-                                          : 2.5,
+                                      // textScaleFactor: MediaQuery.of(context)
+                                      //             .orientation
+                                      //             .index ==
+                                      //         0
+                                      //     ? 2.0
+                                      //     : 2.5,
                                     ),
                                   ),
                                   Text(
@@ -202,7 +215,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                     ),
                   ),
                   Flexible(
-                    flex: MediaQuery.of(context).orientation.index == 0 ? 1 : 4,
+                    flex: MediaQuery.of(context).orientation.index == 0 ? 0 : 4,
                     child: Container(),
                   )
                 ],
