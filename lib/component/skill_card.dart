@@ -25,7 +25,7 @@ class _SkillCardState extends State<SkillCard> {
   double y = 0.0;
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(widget.delay, () {
         setState(() {
           opacity = 1.0;
@@ -79,9 +79,15 @@ class _SkillCardState extends State<SkillCard> {
                 ),
               ),
               SizedBox(
-                  height: 140,
-                  child: Image.asset(widget.imageIcon, fit: BoxFit.cover)),
-              const Text('Skill level'),
+                  height: (MediaQuery.of(context).orientation.index == 0
+                      ? 96
+                      : 140),
+                  child: Image.asset(
+                    widget.imageIcon,
+                    fit: BoxFit.cover,
+                    isAntiAlias: true,
+                  )),
+              const Text('Skill confidence level'),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Row(

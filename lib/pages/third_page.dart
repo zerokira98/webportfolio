@@ -1,73 +1,157 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-class ThirdPage extends StatelessWidget {
+class ThirdPage extends StatefulWidget {
   const ThirdPage({Key? key}) : super(key: key);
 
   @override
+  State<ThirdPage> createState() => _ThirdPageState();
+}
+
+class _ThirdPageState extends State<ThirdPage>
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  late AnimationController ac;
+  late Animation<double> telo;
+  late Animation<double> ani;
+  // late Animation<Alignment> ani2;
+  @override
+  void initState() {
+    ac = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 4450),
+    );
+    telo = CurvedAnimation(curve: Curves.easeInOut, parent: ac);
+    ani = Tween(begin: 50.0, end: 255.0).animate(telo)
+      ..addListener(() {
+        setState(() {
+          // debugPrint(ani.value.toString());
+        });
+      });
+    ac.forward();
+    super.initState();
+  }
+
+  @override
+// TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 56),
-      child: Column(
-        children: [
-          Container(
-              margin: const EdgeInsets.symmetric(vertical: 24.0),
-              padding: const EdgeInsets.all(12.0),
-              child: const Text(
-                'Contact',
-                // textScaleFactor: 1.7,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 36),
-              )),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              ContactCard(
-                  title: 'Github',
-                  iconColor: Colors.white,
-                  assetImage: 'res/github.png',
-                  url: 'http://www.github.com/zerokira98',
-                  bgColor: Colors.black,
-                  txtColor: Colors.white),
-              Padding(padding: EdgeInsets.all(18.0)),
-              ContactCard(
-                  title: 'LinkedIn',
-                  iconColor: Colors.white,
-                  assetImage: 'res/linkedin.png',
-                  url:
-                      'https://www.linkedin.com/in/muhammad-rizal-afifuddin-880361193/',
-                  bgColor: Colors.white,
-                  txtColor: Colors.black),
-              Padding(padding: EdgeInsets.all(18.0)),
-              ContactCard(
-                  title: 'Facebook',
-                  assetImage: 'res/fb.png',
-                  // iconColor: Colors.black,
-                  url: 'https://www.facebook.com/messavb',
-                  bgColor: Colors.white,
-                  txtColor: Colors.black),
+    super.build(context);
+    return Stack(
+      children: [
+        Container(
+          height: MediaQuery.of(context).size.height * 0.4,
+          padding: const EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+            Colors.black,
+            Color.fromRGBO(
+              (ani.value / 3).floor(),
+              (ani.value / 5).floor(),
+              (ani.value / 1.2).floor(),
+              1,
+            ),
+            // b,
+            Color.fromRGBO(
+              (ani.value / 2).floor(),
+              (ani.value / 4).floor(),
+              (ani.value / 1.2).floor(),
+              1,
+            ),
+            Colors.black,
+          ], stops: const [
+            0.0,
+            0.2,
+            // 0.5,
+            0.8,
+            1.0
+          ])),
+          // padding: const EdgeInsets.only(bottom: 56),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                  margin: const EdgeInsets.symmetric(vertical: 6.0),
+                  padding: const EdgeInsets.all(12.0),
+                  child: const Text(
+                    'Contact',
+                    // textScaleFactor: 1.7,
+                    style: TextStyle(
+                        // fontWeight: FontWeight.bold,
+                        fontSize: 36,
+                        color: Colors.white),
+                  )),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    ContactCard(
+                        title: 'Github',
+                        iconColor: Colors.white,
+                        assetImage: 'res/github.png',
+                        url: 'http://www.github.com/zerokira98',
+                        bgColor: Colors.black,
+                        txtColor: Colors.white),
+                    Padding(padding: EdgeInsets.all(12.0)),
+                    ContactCard(
+                        title: 'LinkedIn',
+                        iconColor: Colors.white,
+                        assetImage: 'res/linkedin.png',
+                        url:
+                            'https://www.linkedin.com/in/muhammad-rizal-afifuddin-880361193/',
+                        bgColor: Colors.white,
+                        txtColor: Colors.black),
+                    Padding(padding: EdgeInsets.all(12.0)),
+                    ContactCard(
+                        title: 'Facebook',
+                        assetImage: 'res/fb.png',
+                        // iconColor: Colors.black,
+                        url: 'https://www.facebook.com/messavb',
+                        bgColor: Colors.white,
+                        txtColor: Colors.black)
+                  ],
+                ),
+              ),
+              // const Padding(padding: EdgeInsets.all(12.0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  ContactCard(
+                      title: 'Twitter',
+                      assetImage: 'res/twitter.png',
+                      url: 'https://www.twitter.com/RizalAfifuddin',
+                      bgColor: Colors.white,
+                      txtColor: Colors.black),
+                  Padding(padding: EdgeInsets.all(12.0)),
+                  ContactCard(
+                      title: 'Instagram',
+                      assetImage: 'res/ig.png',
+                      url: 'https://www.instagram.com/rizalafif84',
+                      bgColor: Colors.white,
+                      txtColor: Colors.black),
+                ],
+              ),
+              // const Padding(padding: EdgeInsets.all(12.0)),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     MediaQuery.of(context).orientation.index == 0
+              //         ? const ContactCard(
+              //             title: 'Facebook',
+              //             assetImage: 'res/fb.png',
+              //             // iconColor: Colors.black,
+              //             url: 'https://www.facebook.com/messavb',
+              //             bgColor: Colors.white,
+              //             txtColor: Colors.black)
+              //         : Container(),
+              //   ],
+              // )
             ],
           ),
-          const Padding(padding: EdgeInsets.all(12.0)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              ContactCard(
-                  title: 'Twitter',
-                  assetImage: 'res/twitter.png',
-                  url: 'https://www.twitter.com/RizalAfifuddin',
-                  bgColor: Colors.white,
-                  txtColor: Colors.black),
-              Padding(padding: EdgeInsets.all(18.0)),
-              ContactCard(
-                  title: 'Instagram',
-                  assetImage: 'res/ig.png',
-                  url: 'https://www.instagram.com/rizalafif84',
-                  bgColor: Colors.white,
-                  txtColor: Colors.black),
-            ],
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -97,8 +181,8 @@ class _ContactCardState extends State<ContactCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        if (await canLaunch(widget.url)) {
-          launch(widget.url);
+        if (await canLaunchUrlString(widget.url)) {
+          launchUrlString(widget.url);
         }
       },
       child: MouseRegion(
