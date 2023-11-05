@@ -1,6 +1,7 @@
 // import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:newwebsite/global_var.dart' as global;
 
 class CustomAppBar extends StatefulWidget {
   final PageController pageController;
@@ -40,7 +41,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Color col = Colors.transparent;
   teloListener() {
     var a = (widget.pageController.page!);
-    print(a.toString());
+    // print(a.toString());
     if (a >= 0 && a < 1 && col != Colors.purple) {
       setState(() {
         col = Colors.purple;
@@ -48,7 +49,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     }
     if (a >= 1 && a < 2 && col != Colors.red.shade900) {
       setState(() {
-        col = Colors.red.shade900;
+        col = Colors.blue.shade900;
       });
     }
     if (a >= 2 && a < 3 && col != Colors.green.shade900) {
@@ -80,7 +81,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return Container(
       color: col,
-      height: 52,
+      height: global.appbarHeight,
       width: MediaQuery.of(context).size.width,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 450),

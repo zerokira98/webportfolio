@@ -82,11 +82,11 @@ class _ThirdPageState extends State<ThirdPage>
                         fontSize: 36,
                         color: Colors.white),
                   )),
-              SingleChildScrollView(
+              const SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     ContactCard(
                         title: 'Github',
                         iconColor: Colors.white,
@@ -115,9 +115,9 @@ class _ThirdPageState extends State<ThirdPage>
                 ),
               ),
               // const Padding(padding: EdgeInsets.all(12.0)),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   ContactCard(
                       title: 'Twitter',
                       assetImage: 'res/twitter.png',

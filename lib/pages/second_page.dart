@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:newwebsite/component/skill_card.dart';
 import 'package:rive/rive.dart' as rive;
+import 'package:newwebsite/global_var.dart' as global;
 
 class SecondPage extends StatefulWidget {
   // final ScrollController scrollController;
@@ -148,8 +149,8 @@ class _SecondPageState extends State<SecondPage>
               mainAxisSize: MainAxisSize.max,
               children: [
                 MediaQuery.of(context).orientation == Orientation.landscape
-                    ? Padding(padding: EdgeInsets.all(8))
-                    : Padding(padding: EdgeInsets.all(4)),
+                    ? const Padding(padding: EdgeInsets.all(8))
+                    : const Padding(padding: EdgeInsets.all(4)),
                 Container(
                   padding: const EdgeInsets.all(18.0),
                   margin: const EdgeInsets.only(bottom: 32),
@@ -184,8 +185,8 @@ class _SecondPageState extends State<SecondPage>
                   ),
                 ),
                 MediaQuery.of(context).orientation == Orientation.landscape
-                    ? Padding(padding: EdgeInsets.all(12))
-                    : SizedBox(),
+                    ? const Padding(padding: EdgeInsets.all(12))
+                    : const SizedBox(),
                 Expanded(
                   child: AnimatedOpacity(
                     opacity: opacityContent,
@@ -253,7 +254,7 @@ class _SecondPageState extends State<SecondPage>
                   )),
             )),
         Positioned(
-            top: 54,
+            top: global.appbarHeight,
             left: 0,
             right: 0,
             child: Container(

@@ -1,5 +1,5 @@
 // import 'dart:io';
-
+import 'package:newwebsite/global_var.dart' as global;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:newwebsite/pages/third_page.dart';
@@ -90,9 +90,9 @@ class _ProjectPageState extends State<ProjectPage>
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                    padding: (EdgeInsets.only(top: 64)),
+                    padding: (const EdgeInsets.only(top: 64)),
                     child: const Text(
-                      'Protofolio',
+                      'Protofolio and Ongoing Programs',
                       // textScaleFactor: 1.7,
                       style: TextStyle(
                         fontSize: 32,
@@ -112,6 +112,19 @@ class _ProjectPageState extends State<ProjectPage>
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, i) {
+                              if (i == 0) {
+                                return const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: ProjectCard(
+                                    gitUrl:
+                                        'https://github.com/zerokira98/order_makan',
+                                    // dlLink: '',
+                                    judul: 'Order Makan(Ongoing)',
+                                    deskripsi:
+                                        'Aplikasi POS untuk kasir tempat makan sederhana',
+                                  ),
+                                );
+                              }
                               return const Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: ProjectCard(
@@ -123,7 +136,7 @@ class _ProjectPageState extends State<ProjectPage>
                                 ),
                               );
                             },
-                            itemCount: 1,
+                            itemCount: 2,
                           ),
                         ),
                       ),
@@ -137,7 +150,7 @@ class _ProjectPageState extends State<ProjectPage>
           ],
         ),
         Positioned(
-            top: 54,
+            top: global.appbarHeight,
             left: 0,
             right: 0,
             child: Container(
@@ -227,7 +240,9 @@ class _ProjectCardState extends State<ProjectCard> {
                     boxShadow: const [BoxShadow(blurRadius: 12)],
                     color: Colors.white.withOpacity(0.8),
                   ),
-                  child: Image.asset('res/catatbeli.png'),
+                  child: Image.asset(widget.judul.contains('Catat')
+                      ? 'res/catatbeli.png'
+                      : 'res/ordermakan.png'),
                 ),
               ),
               AnimatedPositioned(

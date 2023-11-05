@@ -1,6 +1,7 @@
 // import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart' as rive;
 // import 'dart:math' as math;
@@ -31,27 +32,44 @@ class _FirstPageState extends State<FirstPage>
     duration: const Duration(seconds: 2),
     vsync: this,
   );
+  late final AnimationController _acontroller2 = AnimationController(
+    lowerBound: 0.0,
+    upperBound: 1,
+    duration: const Duration(seconds: 2),
+    vsync: this,
+  );
   late final Animation<double> _animation = CurvedAnimation(
     parent: _acontroller,
+    curve: Curves.bounceInOut,
+  );
+  late final Animation<double> _animation2 = CurvedAnimation(
+    parent: _acontroller2,
     curve: Curves.bounceInOut,
   );
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(seconds: 1), () {
+        _acontroller2.repeat(reverse: true);
         setState(() {
           opacityV = 1.0;
           degree = 0.0;
         });
       });
-      // widget.scrollController.addListener(() {
-      //   if (widget.scrollController.offset < 800) {
-      //     setState(() {
-      //       alignmentY = ((widget.scrollController.offset - 400) / 400);
-      //     });
-      //   }
-      //   // print(widget.scrollController.offset);
-      // });
+      _acontroller2.addListener(() {
+        setState(() {});
+      });
+      final isWebMobile = kIsWeb &&
+          (defaultTargetPlatform == TargetPlatform.iOS ||
+              defaultTargetPlatform == TargetPlatform.android);
+      if (isWebMobile) {
+        Future.delayed(
+          Duration(seconds: 2),
+          () {
+            _acontroller.forward();
+          },
+        );
+      }
     });
     super.initState();
   }
@@ -63,7 +81,6 @@ class _FirstPageState extends State<FirstPage>
   Widget build(BuildContext context) {
     super.build(context);
     var awaw = MediaQuery.of(context).size.height;
-    debugPrint(awaw.toString());
     double avatarPadding =
         MediaQuery.of(context).orientation.index == 0 ? 4.0 : 8.0;
     return Stack(
@@ -129,7 +146,20 @@ class _FirstPageState extends State<FirstPage>
                             bottom: avatarPadding),
                         decoration: BoxDecoration(
                             border: Border.all(
-                                color: Colors.purple.shade200, width: 4),
+                                color: Colors.white.withOpacity(
+                                    _animation2.value * 0.2 + 0.35),
+                                width: 4),
+                            // border: Border(
+
+                            //   bottom: BorderSide(
+                            //       color: Colors.purple.shade200, width: 4),
+                            //   top: BorderSide(
+                            //       color: Colors.purple.shade200, width: 4),
+                            //   left: BorderSide(
+                            //       color: Colors.purple.shade200, width: 4),
+                            //   right: BorderSide(
+                            //       color: Colors.purple.shade200, width: 4),
+                            // ),
                             color: Colors.purple.withOpacity(0.65),
                             borderRadius: BorderRadius.circular(avatarPadding +
                                 (MediaQuery.of(context).orientation.index == 0

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class SkillCard extends StatefulWidget {
@@ -19,16 +20,29 @@ class SkillCard extends StatefulWidget {
   State<SkillCard> createState() => _SkillCardState();
 }
 
-class _SkillCardState extends State<SkillCard> {
+class _SkillCardState extends State<SkillCard>
+    with SingleTickerProviderStateMixin {
   double opacity = 0.0;
   Color shadowColor = Colors.white54;
   double y = 0.0;
+  double percent = 0.0;
+  late AnimationController acont;
+  late Animation ani;
   @override
   void initState() {
+    acont =
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 450));
+    ani = Tween(begin: 0.0, end: widget.percent).animate(acont);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(widget.delay, () {
         setState(() {
           opacity = 1.0;
+        });
+        Future.delayed(const Duration(milliseconds: 100), () {
+          acont.forward();
+          // setState(() {
+          //   percent = widget.percent;
+          // });
         });
       });
     });
@@ -63,7 +77,7 @@ class _SkillCardState extends State<SkillCard> {
           transform: Matrix4.identity()..translate(0, y),
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: Colors.grey[400],
               boxShadow: [
                 BoxShadow(blurRadius: 10, color: shadowColor),
               ],
@@ -93,8 +107,15 @@ class _SkillCardState extends State<SkillCard> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: LinearProgressIndicator(
-                        value: widget.percent,
+                      child: TweenAnimationBuilder<double>(
+                        duration: Duration(
+                            milliseconds: widget.delay.inMilliseconds + 1400),
+                        tween: Tween(begin: 0.0, end: widget.percent),
+                        builder: (context, value, child) =>
+                            LinearProgressIndicator(
+                          backgroundColor: Colors.black12,
+                          value: value,
+                        ),
                       ),
                     ),
                     Padding(
